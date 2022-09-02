@@ -1,20 +1,40 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useEffect, useCallback } from 'react'
+import AppNavigation from './navigation/BaseNavigation'
+import * as SplashScreen from 'expo-splash-screen'
+import { KeyboardAvoidingView, SafeAreaView, StyleSheet } from 'react-native'
+import { useFonts } from 'expo-font'
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    const [fontsLoaded] = useFonts({
+        SFProRounded: require('./assets/fonts/SF-Pro-Rounded-Heavy.ttf'),
+    })
+
+    useEffect(() => {
+        async function Prepare() {
+            await SplashScreen.preventAutoHideAsync()
+        }
+        Prepare()
+    }, [])
+
+    const OnLayout = useCallback(async () => {
+        if (fontsLoaded) {
+            await SplashScreen.hideAsync()
+        }
+    }, [fontsLoaded])
+
+    if (!fontsLoaded) {
+        return null
+    }
+
+    return (
+        <SafeAreaView onLayout={OnLayout} style={styles.mainContainer}>
+            <AppNavigation />
+        </SafeAreaView>
+    )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+    mainContainer: {
+        flex: 1,
+    },
+})
