@@ -1,5 +1,5 @@
 import { FieldValues, useForm } from 'react-hook-form'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, ScrollView } from 'react-native'
 import { Button, Input } from '../../components/atoms'
 
 const RegisterScreen = () => {
@@ -10,7 +10,7 @@ const RegisterScreen = () => {
     }
 
     return (
-        <View style={registerStyles.container}>
+        <ScrollView contentContainerStyle={registerStyles.container}>
             <Input
                 control={control}
                 name="name"
@@ -36,6 +36,12 @@ const RegisterScreen = () => {
                 label="Password"
                 type="password"
             />
+            <Input
+                control={control}
+                name="retypepasword"
+                label="Re-type Password"
+                type="password"
+            />
             <Button
                 title="Register"
                 style={{
@@ -44,19 +50,21 @@ const RegisterScreen = () => {
                 }}
                 onPress={handleSubmit(onRegister)}
             />
-        </View>
+        </ScrollView>
     )
 }
 
 const registerStyles = StyleSheet.create({
     container: {
-        marginTop: 62,
-        marginHorizontal: 50,
+        paddingBottom: 20,
+        marginHorizontal: 35,
+        paddingHorizontal: 25,
         alignItems: 'center',
         flexDirection: 'column',
     },
     button: {
         backgroundColor: '#FA4A0C',
+        marginTop: 20,
     },
     buttonText: {
         color: '#FFFFFF',
