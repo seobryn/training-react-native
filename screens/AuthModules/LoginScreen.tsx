@@ -1,13 +1,18 @@
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
+import { FieldValues, useForm } from 'react-hook-form'
 import { StyleSheet, View } from 'react-native'
 import { Button, Input } from '../../components/atoms'
 import Link from '../../components/atoms/Link'
+import { ScreenProps } from '../../navigation/Types'
 
-const LoginScreen = () => {
-    const { control, handleSubmit, formState } = useForm()
+const LoginScreen = ({ navigation }: ScreenProps) => {
+    const { control, handleSubmit } = useForm()
 
     const onLogin = (data: FieldValues) => {
         console.log(data)
+
+        navigation.navigate('Menu', {
+            name: data.Email.substr(0, data.Email.indexOf('@')),
+        })
     }
 
     return (
@@ -19,6 +24,7 @@ const LoginScreen = () => {
                 type="email"
                 rules={{
                     required: true,
+                    pattern: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
                 }}
             />
             <Input
